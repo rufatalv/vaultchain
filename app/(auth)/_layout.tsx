@@ -1,26 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import { router, Tabs, useFocusEffect } from "expo-router";
+import { StyleSheet } from "react-native";
+import React from "react";
+import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AuthHeader from "../../components/AuthHeader";
 
 const AuthLayout = () => {
   return (
-    <SafeAreaView className="px-6 h-full gap-6 bg-white">
-      <Tabs
+    <SafeAreaView className="flex-1 bg-white">
+      <Stack
         screenOptions={{
-          animation: "fade",
           headerShown: false,
-          tabBarStyle: {
-            display: "none",
-            backgroundColor: "#fff",
-          },
+          animation: "fade",
         }}
       >
-        <Tabs.Screen name="login" />
-        <Tabs.Screen name="otp" />
-        <Tabs.Screen name="register" />
-      </Tabs>
+        <Stack.Screen name="login" />
+        <Stack.Screen name="otp" />
+        <Stack.Screen name="register" />
+        <Stack.Screen name="index" />
+      </Stack>
     </SafeAreaView>
   );
 };

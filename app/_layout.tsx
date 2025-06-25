@@ -1,16 +1,16 @@
 import { useFonts } from "expo-font";
-import { Redirect, router, Slot, SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { AuthProvider, useAuth } from "../components/AuthContext";
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
-// export const unstable_settings = {
-//   // Ensure any route can link back to `/`
-//   initialRouteName: "(auth)/(tabview)/login",
-// };
 
-const RootLayout = () => {
+export const unstable_settings = {
+  initialRouteName: "(tabs)",
+};
+
+const RootLayoutContent = () => {
   const [loaded, error] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -22,31 +22,34 @@ const RootLayout = () => {
     "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
   });
 
+  const { isAuthenticated } = useAuth();
+
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
-      router.push("/(tabs)");
     }
   }, [loaded, error]);
+
+  console.log("RootLayout: isAuthenticated =", isAuthenticated);
+  console.log("RootLayout: loaded =", loaded, "error =", error);
 
   if (!loaded && !error) {
     return null;
   }
+
   return (
-    <Stack>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="(tabs)"
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="(auth)"
-      />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" />
     </Stack>
+  );
+};
+
+const RootLayout = () => {
+  return (
+    <AuthProvider>
+      <RootLayoutContent />
+    </AuthProvider>
   );
 };
 
