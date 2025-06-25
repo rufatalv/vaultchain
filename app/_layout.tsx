@@ -1,5 +1,5 @@
 import { useFonts } from "expo-font";
-import { router, Slot, SplashScreen, Stack } from "expo-router";
+import { Redirect, router, Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import "../global.css";
@@ -25,6 +25,7 @@ const RootLayout = () => {
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
+      router.push("/(tabs)");
     }
   }, [loaded, error]);
 
@@ -33,6 +34,12 @@ const RootLayout = () => {
   }
   return (
     <Stack>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="(tabs)"
+      />
       <Stack.Screen
         options={{
           headerShown: false,
